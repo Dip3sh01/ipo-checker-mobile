@@ -16,21 +16,26 @@ CHROME_PATH = '/data/data/com.termux/files/usr/bin/chromium'
 MIN_CONFIDENCE = 45
 TIMEOUT = 30
 
+
 def setup_termux_browser():
-    """Configure Chrome for Termux"""
+    from selenium.webdriver.chrome.options import Options
+    from selenium.webdriver.chrome.service import Service
+    from webdriver_manager.chrome import ChromeDriverManager
+    from webdriver_manager.core.os_manager import ChromeType
+
     chrome_options = Options()
-    chrome_options.binary_location = CHROME_PATH
-    chrome_options.add_argument('--headless')
-    chrome_options.add_argument('--disable-gpu')
+    
+    # Chromium-specific settings
+    chrome_options.binary_location = '/data/data/com.termux/files/usr/bin/chromium'
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
-    chrome_options.add_argument('--window-size=360,640')
-    chrome_options.add_argument(
-        'user-agent=Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 '
-        '(KHTML, like Gecko) Chrome/91.0.4472.120 Mobile Safari/537.36'
+    chrome_options.add_argument('--headless=new')
+    
+    # Use Chromium-specific driver manager
+    service = Service(
+        ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
     )
     
-    service = Service(ChromeDriverManager().install())
     return webdriver.Chrome(service=service, options=chrome_options)
 
 def scroll_click(driver, element):
