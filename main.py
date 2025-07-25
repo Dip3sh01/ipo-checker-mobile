@@ -22,12 +22,12 @@ from selenium.webdriver.firefox.service import Service as FirefoxService
 
 def setup_termux_browser():
     firefox_options = Options()
-    firefox_options.binary_location = '/data/data/com.termux/files/usr/bin/firefox'
-    firefox_options.add_argument('--headless')
-    firefox_options.add_argument('--width=360')
-    firefox_options.add_argument('--height=640')
+    firefox_options.binary_location = "/data/data/com.termux/files/usr/bin/firefox"
+    firefox_options.add_argument("--headless")
+    firefox_options.add_argument("--width=360")
+    firefox_options.add_argument("--height=640")
 
-    service = FirefoxService(executable_path='/data/data/com.termux/files/usr/bin/geckodriver')
+    service = FirefoxService(executable_path="/data/data/com.termux/files/usr/bin/geckodriver")
     
     return webdriver.Firefox(service=service, options=firefox_options)
 
