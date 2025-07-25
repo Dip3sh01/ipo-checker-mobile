@@ -16,36 +16,19 @@ CHROME_PATH = '/data/data/com.termux/files/usr/bin/chromium'
 MIN_CONFIDENCE = 45
 TIMEOUT = 30
 
-
 def setup_termux_browser():
     from selenium import webdriver
-    from selenium.webdriver.chrome.service import Service
-    from selenium.webdriver.chrome.options import Options
-    from webdriver_manager.chrome import ChromeDriverManager
-    from webdriver_manager.core.os_manager import ChromeType
+    from selenium.webdriver.firefox.options import Options
     
-    chrome_options = Options()
+    firefox_options = Options()
     
-    # Essential Termux configurations
-    chrome_options.add_argument('--no-sandbox')
-    chrome_options.add_argument('--disable-dev-shm-usage')
-    chrome_options.add_argument('--headless=new')
-    chrome_options.add_argument('--disable-gpu')
-    chrome_options.add_argument('--remote-debugging-port=9222')
+    # Termux-specific settings
+    firefox_options.binary_location = '/data/data/com.termux/files/usr/bin/firefox'
+    firefox_options.add_argument('--headless')
+    firefox_options.add_argument('--width=360')
+    firefox_options.add_argument('--height=640')
     
-    # Chromium binary path in Termux
-    chrome_options.binary_location = '/data/data/com.termux/files/usr/bin/chromium'
-    
-    # Special configuration for Termux
-    service = Service(
-        ChromeDriverManager(
-            chrome_type=ChromeType.CHROMIUM,
-            driver_version='114.0.5735.90'
-        ).install(),
-        service_args=['--verbose']
-    )
-    
-    return webdriver.Chrome(service=service, options=chrome_options)
+    return webdriver.Firefox(options=firefox_options)
 
 def scroll_click(driver, element):
     """Mobile-optimized click with scroll"""
