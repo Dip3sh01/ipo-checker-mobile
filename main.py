@@ -25,7 +25,7 @@ def setup_termux_browser():
 
     service = FirefoxService(executable_path="/data/data/com.termux/files/usr/bin/geckodriver")
     
-    return webdriver.Firefox(service=service, options=firefox_options, selenium_manager=False )
+    return webdriver.Firefox(service=service, options=firefox_options )
 
 def scroll_click(driver, element):
     """Mobile-optimized click with scroll"""
