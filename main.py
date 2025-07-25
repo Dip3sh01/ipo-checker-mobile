@@ -16,19 +16,20 @@ CHROME_PATH = '/data/data/com.termux/files/usr/bin/chromium'
 MIN_CONFIDENCE = 45
 TIMEOUT = 30
 
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.firefox.service import Service as FirefoxService
+
 def setup_termux_browser():
-    from selenium import webdriver
-    from selenium.webdriver.firefox.options import Options
-    
     firefox_options = Options()
-    
-    # Termux-specific settings
     firefox_options.binary_location = '/data/data/com.termux/files/usr/bin/firefox'
     firefox_options.add_argument('--headless')
     firefox_options.add_argument('--width=360')
     firefox_options.add_argument('--height=640')
+
+    service = FirefoxService(executable_path='/data/data/com.termux/files/usr/bin/geckodriver')
     
-    return webdriver.Firefox(options=firefox_options)
+    return webdriver.Firefox(service=service, options=firefox_options)
 
 def scroll_click(driver, element):
     """Mobile-optimized click with scroll"""
